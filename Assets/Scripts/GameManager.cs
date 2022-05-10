@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool pacWin = false;
+
+    public AudioSource munch1;
+    public AudioSource munch2;
+    private int currentMunch = 0;
+
     public Ghost[] ghosts;
     public Pacman pacman;
     public Transform pellets;
@@ -34,6 +40,7 @@ public class GameManager : MonoBehaviour
     }
     private void NewRound()
     {
+        pacWin = false;
         foreach(Transform pellet in this.pellets)
         {
             pellet.gameObject.SetActive(true);
@@ -97,15 +104,30 @@ public class GameManager : MonoBehaviour
 
     public void PelletEaten(Pellet pellet)
     {
+        
+        if (currentMunch ==0)
+        {
+            munch1.Play();
+            currentMunch = 1;
+        }
+        else
+        {
+            munch2.Play();
+            currentMunch = 0;
+        }
+        
         pellet.gameObject.SetActive(false);
 
         SetScore(this.score + pellet.points);
 
         if(!HasRemainingPellets())
         {
+            pacWin = true;
             this.pacman.gameObject.SetActive(false);
             Invoke(nameof(NewRound), 5.0f);
+
         }
+
     }
 
     public void PowerPelletEaten(PowerPellet pellet)

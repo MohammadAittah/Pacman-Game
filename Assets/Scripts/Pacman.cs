@@ -13,6 +13,7 @@ public class Pacman : MonoBehaviour
     }
     private void Update()
     {
+        //Take user input and convert to direction then rotate sprite accordingly 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             this.movement.SetDirection(Vector2.up);
